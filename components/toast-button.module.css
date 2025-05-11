@@ -1,0 +1,9 @@
+.toastButton {
+  margin-left: 10px;
+  background: transparent;
+  color: inherit;
+  border: none;
+  :hover {
+    cursor: pointer;
+  }
+}

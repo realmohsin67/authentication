@@ -1,0 +1,11 @@
+.themeSwitcher {
+  position: absolute;
+  background: transparent;
+  border: none;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  :hover {
+    cursor: pointer;
+  }
+}
