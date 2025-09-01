@@ -1,10 +1,10 @@
 .themeSwitcher {
-  position: absolute;
+  /* position: absolute; */
   background: transparent;
   border: none;
-  top: 20px;
+  /* top: 20px;
   right: 20px;
-  z-index: 1000;
+  z-index: 1000; */
   :hover {
     cursor: pointer;
   }

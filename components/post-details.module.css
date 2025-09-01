@@ -1,0 +1,15 @@
+.hoverStyleForLight {
+  &:hover {
+    & + pre {
+      color: magenta;
+    }
+  }
+}
+
+.hoverStyleForDark {
+  &:hover {
+    & + pre {
+      color: lightpink;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+body {
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease;
+}
+
+.light-theme {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark-theme {
+  background-color: #222831;
+  color: #ffffff;
+}

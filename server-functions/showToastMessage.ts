@@ -1,8 +1,7 @@
 "use server";
 
-import { ToastCookie } from "@/utils/types";
 import { cookies } from "next/headers";
-
+import { flashToastCookie } from "@/utils/flashToastCookie";
 /**
  * This function sets a cookie with the provided toast message.
  * The cookie is set to expire immediately after being set.
@@ -15,18 +14,7 @@ import { cookies } from "next/headers";
  *
  * @param {string} toastMessage - The message to be stored in the cookie.
  */
-export async function flashToastCookie(toastMessage: string) {
+export async function showToastMessage(toastMessage: string) {
   const cookieStore = await cookies();
-
-  const toast: ToastCookie = {
-    message: toastMessage,
-    toastSetTime: new Date().getTime(),
-  };
-
-  cookieStore.set("toast", JSON.stringify(toast), {
-    secure: true,
-    httpOnly: true,
-    sameSite: "lax",
-    maxAge: 0, // cookie will expire immediately after hitting browser
-  });
+  flashToastCookie(cookieStore, toastMessage);
 }

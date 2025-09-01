@@ -1,15 +1,36 @@
 import prisma from "@/prisma/prisma-client";
-import ToasterButton from "./toast-button";
+import { RequireOnlyOneOrNone } from "@/utils/types";
 
-export default async function Users() {
-  const posts = await prisma.post.findMany();
+type PostsPropOptions = {
+  userId: string;
+  postId: string;
+};
+
+type PostsProps = RequireOnlyOneOrNone<PostsPropOptions>;
+
+export default async function Posts({ userId, postId }: PostsProps) {
+  let posts;
+
+  if (postId) {
+    posts = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+  } else if (userId) {
+    posts = await prisma.post.findMany({
+      where: {
+        authorId: userId,
+      },
+    });
+  } else {
+    posts = await prisma.post.findMany();
+  }
+
   const postsJson = JSON.stringify(posts, null, 2);
+
   return (
     <div>
-      <div style={{ display: "flex" }}>
-        <h2>Posts</h2>
-        <ToasterButton toastMessage="Toast Message from Posts" />
-      </div>
       <pre>{postsJson}</pre>
     </div>
   );

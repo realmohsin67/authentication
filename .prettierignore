@@ -20,3 +20,6 @@ public/
 
 # generated
 prisma/generated-prisma-client
+
+# misc
+*.ignore*

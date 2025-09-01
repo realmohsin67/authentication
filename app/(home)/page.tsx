@@ -1,13 +1,9 @@
-import Users from "@/components/users";
-import Posts from "@/components/posts";
-import ThemeSwitcher from "@/components/theme-switcher";
+import WelcomeSection from "@/components/sections/welcome-section";
 
-export default function Page() {
+export default async function HomePage() {
   return (
     <div>
-      <ThemeSwitcher />
-      <Users />
-      <Posts />
+      <WelcomeSection />
     </div>
   );
 }

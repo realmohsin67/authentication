@@ -15,13 +15,71 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String?
-  email     String?  @unique
-  password  String?
-  posts     Post[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String    @id @default(cuid())
+  name            String?
+  email           String?   @unique
+  password        Password?
+  isEmailVerified Boolean   @default(false)
+  posts           Post[]
+  roles           Role[]
+  sessions        Session[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Password {
+  id     Int    @id @default(autoincrement())
+  hash   String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+}
+
+model Session {
+  id             String   @id @default(cuid())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  expirationDate DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Verification {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  type      String // e.g., "email", "phone"
+  target    String // e.g., "email", "phone"
+  secret    String
+  algorithm String // e.g., "sha256"
+  digits    Int       @default(6)
+  period    Int       @default(30) // in seconds
+  expiresAt DateTime?
+
+  @@unique([target, type])
+}
+
+model Permission {
+  id          String   @id @default(cuid())
+  action      String // create, read, update, delete
+  entity      String // user or post
+  access      String // own or any
+  description String?  @default("")
+  roles       Role[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([action, entity, access])
+}
+
+model Role {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  description String?      @default("")
+  permissions Permission[]
+  users       User[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Post {
@@ -29,7 +87,7 @@ model Post {
   title     String
   content   String?
   published Boolean  @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
+  author    User?    @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
